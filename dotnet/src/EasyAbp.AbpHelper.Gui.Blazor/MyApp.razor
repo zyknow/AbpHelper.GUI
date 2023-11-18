@@ -7,6 +7,9 @@
 @attribute [ExposeServices(typeof(App))]
 @attribute [Dependency(ReplaceServices = true)]
 <CascadingAuthenticationState>
+    <MudThemeProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
     <Router AppAssembly="RouterOptions.Value.AppAssembly"
             AdditionalAssemblies="RouterOptions.Value.AdditionalAssemblies">
         <Found Context="routeData">

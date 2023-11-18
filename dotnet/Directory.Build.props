@@ -3,7 +3,7 @@
 
     <AbpVersion>7.3.0</AbpVersion>
     <AbpLeptonXThemeVersion>2.3.*-*</AbpLeptonXThemeVersion>
-    <BlazoriseVersion>1.2.3</BlazoriseVersion>
+    <BlazoriseVersion>1.3.3</BlazoriseVersion>
 
   </PropertyGroup>
 </Project>

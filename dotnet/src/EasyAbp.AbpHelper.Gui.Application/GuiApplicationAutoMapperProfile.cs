@@ -1,4 +1,3 @@
-using System.Linq;
 using AutoMapper;
 using EasyAbp.AbpHelper.Core.Commands.Ef.Migrations.Add;
 using EasyAbp.AbpHelper.Core.Commands.Ef.Migrations.Remove;
@@ -7,11 +6,14 @@ using EasyAbp.AbpHelper.Core.Commands.Generate.Crud;
 using EasyAbp.AbpHelper.Core.Commands.Generate.Localization;
 using EasyAbp.AbpHelper.Core.Commands.Generate.Methods;
 using EasyAbp.AbpHelper.Core.Commands.Generate.Service;
+using EasyAbp.AbpHelper.Core.Commands.Generate.Vue3;
 using EasyAbp.AbpHelper.Gui.CodeGeneration.AppService.Dtos;
 using EasyAbp.AbpHelper.Gui.CodeGeneration.Controller.Dtos;
 using EasyAbp.AbpHelper.Gui.CodeGeneration.Crud.Dtos;
 using EasyAbp.AbpHelper.Gui.CodeGeneration.Localization.Dtos;
 using EasyAbp.AbpHelper.Gui.CodeGeneration.Migration.Dtos;
+using EasyAbp.AbpHelper.Gui.CodeGeneration.Vue3.Dtos;
+using System.Linq;
 
 namespace EasyAbp.AbpHelper.Gui
 {
@@ -25,21 +27,21 @@ namespace EasyAbp.AbpHelper.Gui
             CreateMap<AbpHelperGenerateCrudInput, CrudCommandOption>()
                 .ForMember(dest => dest.Exclude,
                     opt => opt.MapFrom(src => src.Exclude.SplitBySpace().ToArray()));
-            
+
             CreateMap<AbpHelperGenerateAppServiceClassInput, ServiceCommandOption>()
                 .ForMember(dest => dest.Exclude,
                     opt => opt.MapFrom(src => src.Exclude.SplitBySpace().ToArray()));
-            
+
             CreateMap<AbpHelperGenerateAppServiceMethodsInput, MethodsCommandOption>()
                 .ForMember(dest => dest.Exclude,
                     opt => opt.MapFrom(src => src.Exclude.SplitBySpace().ToArray()))
                 .ForMember(dest => dest.MethodNames,
                     opt => opt.MapFrom(src => src.MethodNames.SplitBySpace().ToArray()));
-            
+
             CreateMap<AbpHelperGenerateControllerInput, ControllerCommandOption>()
                 .ForMember(dest => dest.Exclude,
                     opt => opt.MapFrom(src => src.Exclude.SplitBySpace().ToArray()));
-            
+
             CreateMap<AbpHelperGenerateLocalizationItemsInput, LocalizationCommandOption>()
                 .ForMember(dest => dest.Exclude,
                     opt => opt.MapFrom(src => src.Exclude.SplitBySpace().ToArray()))
@@ -50,9 +52,13 @@ namespace EasyAbp.AbpHelper.Gui
                 .ForMember(dest => dest.EfOptions, opt => opt.MapFrom(src => src.EfOptions.SplitBySpace().ToArray()))
                 .ForMember(dest => dest.Exclude,
                     opt => opt.MapFrom(src => src.Exclude.SplitBySpace().ToArray()));
-            
+
             CreateMap<AbpHelperGenerateMigrationRemoveInput, RemoveCommandOption>()
                 .ForMember(dest => dest.EfOptions, opt => opt.MapFrom(src => src.EfOptions.SplitBySpace().ToArray()))
+                .ForMember(dest => dest.Exclude,
+                    opt => opt.MapFrom(src => src.Exclude.SplitBySpace().ToArray()));
+
+            CreateMap<AbpHelperGenerateVue3Input, Vue3CommandOption>()
                 .ForMember(dest => dest.Exclude,
                     opt => opt.MapFrom(src => src.Exclude.SplitBySpace().ToArray()));
         }

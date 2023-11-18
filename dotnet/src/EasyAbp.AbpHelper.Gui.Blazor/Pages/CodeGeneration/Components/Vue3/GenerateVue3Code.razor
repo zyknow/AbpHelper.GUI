@@ -1,0 +1,130 @@
+﻿@using EasyAbp.AbpHelper.Gui.Localization
+@using Volo.Abp.AspNetCore.Components.Web
+@inherits EasyAbp.AbpHelper.Gui.Blazor.Pages.Shared.ExecutableComponentBaseWithDirectory<EasyAbp.AbpHelper.Gui.CodeGeneration.Vue3.Dtos.AbpHelperGenerateVue3Input>
+@inject AbpBlazorMessageLocalizerHelper<GuiResource> Lh
+
+<Card Class="mb-4">
+    <CardBody>
+        <Alert Color="Color.Info" Visible>
+            <AlertDescription>
+                <Icon Name="IconName.QuestionCircle"/> @L["Info:FunctionIsBasedOnAbpHelperPart1"]
+            </AlertDescription>
+            <AlertMessage>
+                <Icon Name="IconName.ExternalLinkSquareAlt"/>
+                <Link To="https://github.com/EasyAbp/AbpHelper.CLI/blob/develop/src/AbpHelper.Core/Commands/Generate/Vue3/Vue3CommandOption.cs" Target="Target.Blank" Style="text-decoration: none">
+                    @L["Info:FunctionIsBasedOnAbpHelperPart2_SourceCode"]
+                </Link>
+            </AlertMessage>
+            <AlertDescription>
+                @L["Info:FunctionIsBasedOnAbpHelperPart3"]
+            </AlertDescription>
+        </Alert>
+        <Form>
+            <Validations @ref="ValidationsRef" Model="Input" ValidateOnLoad="false">
+                <Validation MessageLocalizer="@Lh.Localize">
+                    <Field>
+                        <FieldLabel>@L["Directory"] （后端项目.sln，如果是微服务，则为微服务的sln路径）</FieldLabel>
+                        <TextEdit @bind-Text="Input.Directory" Autofocus="true">
+                            <Feedback>
+                                <ValidationError/>
+                            </Feedback>
+                        </TextEdit>
+                    </Field>
+                </Validation>
+
+                <Validation MessageLocalizer="@Lh.Localize">
+                    <Field>
+                        <FieldLabel>@L["CodeGeneration_Crud:Entity"]</FieldLabel>
+                        <TextEdit @bind-Text="Input.Entity">
+                            <Feedback>
+                                <ValidationError/>
+                            </Feedback>
+                        </TextEdit>
+                    </Field>
+                </Validation>
+                <Validation MessageLocalizer="@Lh.Localize">
+                    <Field>
+                        <FieldLabel>实体Dto(指定Dto，不填则根据实体名称查找)</FieldLabel>
+                        <TextEdit @bind-Text="Input.EntityDto">
+                            <Feedback>
+                                <ValidationError/>
+                            </Feedback>
+                        </TextEdit>
+                    </Field>
+                </Validation>
+                <Validation MessageLocalizer="@Lh.Localize">
+                    <Field>
+                        <FieldLabel>创建实体Dto(指定Dto，不填则根据实体名称查找)</FieldLabel>
+                        <TextEdit @bind-Text="Input.CreateEntityDto">
+                            <Feedback>
+                                <ValidationError/>
+                            </Feedback>
+                        </TextEdit>
+                    </Field>
+                </Validation>
+                <Validation MessageLocalizer="@Lh.Localize">
+                    <Field>
+                        <FieldLabel>更新实体Dto(指定Dto，不填则根据实体名称查找)</FieldLabel>
+                        <TextEdit @bind-Text="Input.UpdateEntityDto">
+                            <Feedback>
+                                <ValidationError/>
+                            </Feedback>
+                        </TextEdit>
+                    </Field>
+                </Validation>
+                <Validation MessageLocalizer="@Lh.Localize">
+                    <Field>
+                        <FieldLabel>GetListDto(指定Dto，不填则根据实体名称查找)</FieldLabel>
+                        <TextEdit @bind-Text="Input.GetListEntityDto">
+                            <Feedback>
+                                <ValidationError/>
+                            </Feedback>
+                        </TextEdit>
+                    </Field>
+                </Validation>
+                <Validation MessageLocalizer="@Lh.Localize">
+                    <Field>
+                        <FieldLabel>文件生成路径</FieldLabel>
+                        <TextEdit @bind-Text="Input.GeneratePath">
+                            <Feedback>
+                                <ValidationError/>
+                            </Feedback>
+                        </TextEdit>
+                    </Field>
+                </Validation>
+                @* <Field> *@
+                @*     <FieldLabel>Vue3 Api生成相对路径（相对于Vue3项目Root路径）</FieldLabel> *@
+                @*     <TextEdit @bind-Text="Input.VueApiDirRelativePath"> *@
+                @*         <Feedback> *@
+                @*             <ValidationError/> *@
+                @*         </Feedback> *@
+                @*     </TextEdit> *@
+                @* </Field> *@
+                @* *@
+                @* <Field> *@
+                @*     <FieldLabel>Vue3 crud tsx 生成相对路径（相对于Vue3项目Root路径）</FieldLabel> *@
+                @*     <TextEdit @bind-Text="Input.VueCurdTsxDirRelativePath"> *@
+                @*         <Feedback> *@
+                @*             <ValidationError/> *@
+                @*         </Feedback> *@
+                @*     </TextEdit> *@
+                @* </Field> *@
+                @* *@
+                @* <Field> *@
+                @*     <FieldLabel>Vue3 Page页面生成相对路径（相对于Vue3项目Root路径）</FieldLabel> *@
+                @*     <TextEdit @bind-Text="Input.VuePageDirRelativePath"> *@
+                @*         <Feedback> *@
+                @*             <ValidationError/> *@
+                @*         </Feedback> *@
+                @*     </TextEdit> *@
+                @* </Field> *@
+
+                <Field>
+                    <Check TValue="bool" @bind-Checked="@Input.NoOverwrite">@L["NoOverwrite"]</Check>
+                </Field>
+
+                <SubmitButton Block="true" Clicked="@ExecuteAsync" SaveResourceKey="Button:Execute"/>
+            </Validations>
+        </Form>
+    </CardBody>
+</Card>

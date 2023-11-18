@@ -1,0 +1,141 @@
+﻿@page "/FastRunServices"
+@using EasyAbp.AbpHelper.Gui.Blazor.FastRunServices
+@using System.Diagnostics
+
+<div class="overflow-hidden" style="max-height:90%">
+    @if (_service.Solution == null)
+    {
+        <div>
+            <div>
+                解决方案路径(填写.sln全名路径)
+            </div>
+            <TextEdit @bind-Text="Path">
+            </TextEdit>
+            <Button @onclick="() => LoadSolution(Path)">确定</Button>
+
+        </div>
+    }
+    else
+    {
+        <div class="mb-2">
+            <Button Size="Size.Small" Color="Color.Link" @onclick="async() => {
+            await Sln.StopAllRunning();
+            _service.Solution = null;
+            }">
+
+                <Icon IconSize="IconSize.Large" Name="@("fa-arrow-left")" />
+
+            </Button>
+            <Span TextWeight="TextWeight.Bold">
+                解决方案：
+
+                <Span TextColor="@(Sln.IsRunning?TextColor.Warning : TextColor.Black50)" TextWeight="TextWeight.Bold"> @(Sln.DisplayName)</Span>
+
+            </Span>
+
+            <Button Size="Size.Small" Disabled="@Sln.IsRunning" Loading="@Sln.IsRunning" Color="Color.Primary" @onclick=" () => {
+            Sln.Compile();
+            ChangeCurrentLogProject(Sln);
+            }">
+                <Icon IconSize="IconSize.Large" Name="@("fa-wrench")" />
+                构建
+            </Button>
+            <Button Size="Size.Small" @onclick="() => Sln.StopAllRunning()" Color="Color.Danger">停止运行所有项目</Button>
+            <Button Size="Size.Small" @onclick="() => SaveLocalStorageAsync()" Color="Color.Primary">保存配置</Button>
+
+        </div>
+
+        <Div>
+
+
+            <Splitter>
+
+                <SplitterSection Class="p-2">
+
+                    <Div Flex="Flex.Row" class="align-items-center mb-2">
+
+                        <Button Style="margin-right:20px" Size="Size.Small" @onclick="() => Sln.RunNormalServices()" Color="Color.Primary">启动勾选项目</Button>
+                        <Switch TValue="bool" @bind-Checked="@FollowCurrentActionLog">跟随正在操作的日志</Switch>
+
+                    </Div>
+
+                    <ListGroup>
+
+                        @foreach (var item in _service.Solution.Others.Concat(_service.Solution.Gateways).Concat(_service.Solution.Services))
+                        {
+                            <ListGroupItem Style="max-height:54px" class="@(@$" {(CurrentLogProject?.Name == item.Name ? "bg-success bg-opacity-10":"")}")" @onclick="()=> ChangeCurrentLogProject(item)">
+
+                                <div class="container">
+                                    <div class="row">
+                                        <Div class="col-md-4" Flex="Flex.Row">
+
+                                            <Check TValue="bool" Checked="@item.IsNormal" CheckedChanged="@(v=> item.IsNormal = v)"></Check>
+                                            <Span TextColor="@(item.IsRunning?TextColor.Success:item.IsBudding?TextColor.Warning : TextColor.Black50)" TextWeight="TextWeight.Bold">@item.DisplayName</Span>
+                                            </Div>
+                                            <div class="col-md-4">
+                                                <Button hidden="@(!item.IsRunning)" Size="Size.Small" Color="Color.Link" @onclick="@(()=>{
+                                                    Process.Start(new ProcessStartInfo
+{
+    FileName = item.Url,
+    UseShellExecute = true
+});
+                                                })">
+                                                    @item.Url
+                                            </Button>
+                                        </div>
+                                        <Div class="col-md-4" Flex="Flex.Row">
+                                            <Button Disabled="@(item.IsBudding)" Size="Size.Small" Color="Color.Link" @onclick=" async () => {
+                                                if(FollowCurrentActionLog)
+                                                  ChangeCurrentLogProject(item);
+                                                await item.Compile();
+
+            }">
+                                                <Icon IconSize="IconSize.Large" Name="@("fa-wrench")" />
+                                            </Button>
+
+                                            <Button TextColor="@(item.IsRunning?TextColor.Danger:TextColor.Success)" Disabled="@(item.IsBudding)" Size="Size.Small" Color="Color.Link" @onclick=" async () => {
+                                                if(FollowCurrentActionLog)
+                                                ChangeCurrentLogProject(item);
+
+                                                if(!item.IsRunning)
+                                                await item.RunDll();
+                                                else
+                                                 item.Stop();
+
+                                            }">
+                                                <Icon IconSize="IconSize.Large" Name="@(!item.IsRunning? "fa-play":"fa-stop")" />
+                                            </Button>
+                                        </Div>
+                                    </div>
+                                </div>
+                            </ListGroupItem>
+                        }
+                    </ListGroup>
+                </SplitterSection>
+                <SplitterSection Class="p-2">
+                    <Div Flex="Flex.Column">
+
+                        <Div Flex="Flex.Row" class="align-items-center mb-2">
+                            <Span TextWeight="TextWeight.Bold" Style="margin-right:20px">@CurrentLogProject?.DisplayName</Span>
+                                <Button Style="margin-right:20px" Size="Size.Small" @onclick="() => CurrentLogProject?.ClearLog()" Color="Color.Primary">清空日志</Button>
+                                <Switch TValue="bool" @bind-Checked="@FollowLog">跟随</Switch>
+                            </Div>
+
+                            <Card id="logCardId" class="
+@(@$"p-2 overflow-scroll border-4 {(CurrentLogProject?.HasError == true ? "border-danger":(CurrentLogProject?.IsRunning == true ? "border-success":(CurrentLogProject?.IsBudding == true ? "border-warning":"")))}")"
+                                  style="white-space: pre-wrap;overflow-wrap: break-word;max-height:75vh">
+
+                                <Span>
+                                    @CurrentLogProject?.Log
+                            </Span>
+
+                        </Card>
+                    </Div>
+
+                </SplitterSection>
+            </Splitter>
+        </Div>
+
+    }
+
+</div>

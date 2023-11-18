@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using EasyAbp.AbpHelper.Gui.Localization;
+﻿using EasyAbp.AbpHelper.Gui.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 using Volo.Abp.Account.Localization;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.Users;
@@ -41,7 +41,7 @@ namespace EasyAbp.AbpHelper.Gui.Blazor.Menus
                     "fa fa-home"
                 )
             );
-            
+
             context.Menu.Items.Add(new ApplicationMenuItem(
                     GuiMenus.AbpCli,
                     l["Menu:AbpCli"],
@@ -49,7 +49,7 @@ namespace EasyAbp.AbpHelper.Gui.Blazor.Menus
                     "fa fa-television"
                 )
             );
-            
+
             context.Menu.Items.Add(new ApplicationMenuItem(
                     GuiMenus.CodeGeneration,
                     l["Menu:CodeGeneration"],
@@ -63,6 +63,14 @@ namespace EasyAbp.AbpHelper.Gui.Blazor.Menus
                     l["Menu:ModuleManagement"],
                     "/ModuleManagement",
                     "fa fa-cubes"
+                )
+            );
+
+            context.Menu.Items.Add(new ApplicationMenuItem(
+                    GuiMenus.FastRunServices,
+                    "MjLibrary微服务帮助面板",
+                    "/FastRunServices",
+                    "fa fa-grav"
                 )
             );
 

@@ -153,7 +153,7 @@
     "CodeGeneration_Crud:EntityPrefixDto": "使用实体名前缀命名 DTO 类 - EntityPrefixDto",
     "CodeGeneration_Crud:SkipPermissions": "不生成 Permissions - SkipPermissions",
     "CodeGeneration_Crud:SkipCustomRepository": "不生成自定义 Repository - SkipCustomRepository",
-    "CodeGeneration_Crud:SkipDbMigrations": "不执行 DB migrations - SkipDbMigrations",
+    "CodeGeneration_Crud:SkipDbMigrations": "(微服务项目不要勾选) 不执行 DB migrations - SkipDbMigrations ",
     "CodeGeneration_Crud:SkipUi": "不生成 UI - SkipUi",
     "CodeGeneration_Crud:SkipViewModel": "不生成 ViewModel - SkipViewModel",
     "CodeGeneration_Crud:SkipLocalization": "不生成 Localization - SkipLocalization",

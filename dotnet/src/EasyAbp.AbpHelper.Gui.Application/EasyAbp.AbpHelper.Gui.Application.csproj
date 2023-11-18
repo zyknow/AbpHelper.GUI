@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\common.props" />
 
@@ -16,6 +16,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\AbpHelper.CLI\src\AbpHelper.Core\AbpHelper.Core.csproj" />
     <ProjectReference Include="..\EasyAbp.AbpHelper.Gui.Application.Contracts\EasyAbp.AbpHelper.Gui.Application.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CodeGeneration\Vue3\" />
   </ItemGroup>
 
 </Project>

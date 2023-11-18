@@ -4,15 +4,17 @@
 @using EasyAbp.AbpHelper.Gui.Blazor.Pages.CodeGeneration.Components.Controller
 @using EasyAbp.AbpHelper.Gui.Blazor.Pages.CodeGeneration.Components.Localization
 @using EasyAbp.AbpHelper.Gui.Blazor.Pages.CodeGeneration.Components.Migration
+@using EasyAbp.AbpHelper.Gui.Blazor.Pages.CodeGeneration.Components.Vue3
 @inherits GuiComponentBase
 
-<Tabs Pills="true" SelectedTab="Crud" TabPosition="TabPosition.Start">
+<Tabs Pills="true" SelectedTab="Vue3" TabPosition="TabPosition.Start">
     <Items>
         <Tab Name="Crud">@L["CodeGeneration_Crud"]</Tab>
         <Tab Name="AppService">@L["CodeGeneration_AppService"]</Tab>
         <Tab Name="Controller">@L["CodeGeneration_Controller"]</Tab>
         <Tab Name="Localization">@L["CodeGeneration_Localization"]</Tab>
         <Tab Name="Migration">@L["CodeGeneration_Migration"]</Tab>
+        <Tab Name="Vue3">Vue3</Tab>
     </Items>
     <Content>
         <TabPanel Name="Crud">
@@ -79,6 +81,19 @@
                     </TabPanel>
                     <TabPanel Name="RemoveEfMigration">
                         <RemoveEfMigration></RemoveEfMigration>
+                    </TabPanel>
+                </Content>
+            </Tabs>
+        </TabPanel>
+        
+        <TabPanel Name="Vue3">
+            <Tabs SelectedTab="GenerateVue3Code" TabPosition="TabPosition.Top">
+                <Items>
+                        <Tab Name="GenerateVue3Code">生成vue3+ts代码(MjLibrary专用)</Tab>
+                </Items>
+                <Content>
+                        <TabPanel Name="GenerateVue3Code">
+                        <GenerateVue3Code></GenerateVue3Code>
                     </TabPanel>
                 </Content>
             </Tabs>

@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using Blazorx.Analytics;
+﻿using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
+using Blazorx.Analytics;
 using EasyAbp.AbpHelper.Gui.Blazor.Menus;
 using EasyAbp.AbpHelper.Gui.Blazor.Toolbars;
 using EasyAbp.AbpHelper.Gui.Localization;
@@ -14,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Net.Http;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme;
 using Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme.Bundling;
@@ -59,7 +60,7 @@ namespace EasyAbp.AbpHelper.Gui.Blazor
                     typeof(GuiApplicationContractsModule).Assembly,
                     typeof(GuiBlazorModule).Assembly
                 );
-                
+
             });
         }
 
@@ -82,13 +83,16 @@ namespace EasyAbp.AbpHelper.Gui.Blazor
             ConfigureMenu(context);
             ConfigureToolbar(context);
             ConfigureGoogleAnalytics(context);
+
+            context.Services.AddBlazoredLocalStorage();
+
         }
 
         private void ConfigureGoogleAnalytics(ServiceConfigurationContext context)
         {
             context.Services.AddGoogleAnalytics("G-7EJ58X64VW");
         }
-        
+
         private void ConfigureUrls(IConfiguration configuration)
         {
             Configure<AppUrlOptions>(options =>
@@ -97,7 +101,7 @@ namespace EasyAbp.AbpHelper.Gui.Blazor
                 options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"].Split(','));
             });
         }
-        
+
         private void ConfigureBundles()
         {
             Configure<AbpBundlingOptions>(options =>
@@ -123,8 +127,8 @@ namespace EasyAbp.AbpHelper.Gui.Blazor
                 );
             });
         }
-        
-                private void ConfigureVirtualFileSystem(IWebHostEnvironment hostingEnvironment)
+
+        private void ConfigureVirtualFileSystem(IWebHostEnvironment hostingEnvironment)
         {
             if (hostingEnvironment.IsDevelopment())
             {
@@ -144,7 +148,7 @@ namespace EasyAbp.AbpHelper.Gui.Blazor
                 options.Resources
                     .Get<AbpUiResource>()
                     .AddVirtualJson("/Localization/AbpUi");
-                
+
                 options.Languages.Add(new LanguageInfo("en", "en", "English"));
                 options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
                 options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
@@ -162,7 +166,7 @@ namespace EasyAbp.AbpHelper.Gui.Blazor
                 }
             );
         }
-        
+
         private void ConfigureAutoApiControllers()
         {
             Configure<AbpAspNetCoreMvcOptions>(options =>
@@ -178,7 +182,7 @@ namespace EasyAbp.AbpHelper.Gui.Blazor
                 options.MenuContributors.Add(new GuiMenuContributor(context.Services.GetConfiguration()));
             });
         }
-        
+
         private void ConfigureToolbar(ServiceConfigurationContext context)
         {
             Configure<AbpToolbarOptions>(options =>
@@ -217,7 +221,7 @@ namespace EasyAbp.AbpHelper.Gui.Blazor
                 options.AddMaps<GuiBlazorModule>();
             });
         }
-        
+
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             var env = context.GetEnvironment();
